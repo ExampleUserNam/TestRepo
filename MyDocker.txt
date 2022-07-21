@@ -1,0 +1,20 @@
+Основная ошибка.
+
+После каждого запуска необходимо чистить папку TEMP.
+------------------------------------------------------------------------------------------------------------------------
+Dockerfile
+
+FROM python
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+COPY . .
+CMD pytest --browser_name=remote
+------------------------------------------------------------------------------------------------------------------------
+Команды в терминале для запуска тестов из Docker.
+
+docker run --name tests_run --network selenoid tests pytest --browser_name=remote;
+docker cp tests_run:/app/allure-report .;
+docker cp tests_run:/app/allure-results .;
+allure serve
+
